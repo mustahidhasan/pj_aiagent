@@ -4,4 +4,5 @@ class YahooBot():
     def scrapper():
         pass
 
-if __name__ =="__main__"
+if __name__ =="__main__":
+    pass
