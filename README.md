@@ -20,7 +20,7 @@ steps to run this project
             "command": "uv",
             "args": [
                 "--directory",
-                "C:\\Users\\Sunny\\Desktop\\bc-projects\\playwright-plus-python-mcp\\src\\playwright_server",
+                "path till server",
                 "run",
                 "server.py"
             ]
