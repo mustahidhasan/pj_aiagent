@@ -1,5 +1,5 @@
 import asyncio
-
+import logging
 from mcp.server.models import InitializationOptions
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
@@ -7,6 +7,10 @@ from pydantic import AnyUrl
 import mcp.server.stdio
 
 server = Server("playwright-server")
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def print_log(msg):
+    logging.info(msg)
 
 @server.list_resources()
 async def handle_list_resources() -> list[types.Resource]:
@@ -210,6 +214,7 @@ class NavigateToolHandler(ToolHandler):
         session_id = list(self._sessions.keys())[-1]
         page = self._sessions[session_id]["page"]
         url = arguments.get("url")
+        print_log(f"line 217: arguments: {arguments}")
         if not url.startswith("http://") and not url.startswith("https://"):
             url = "https://" + url
         await page.goto(url)
@@ -360,6 +365,7 @@ async def handle_call_tool(
 async def main():
     # Run the server using stdin/stdout streams
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+        print_log(f"line 368: \n read_strem: {read_stream} \b write_stream: {write_stream}")
         await server.run(
             read_stream,
             write_stream,
@@ -374,5 +380,5 @@ async def main():
         )
 
 if __name__ == "__main__":
-    print("Starting server...")
+    print_log("line 382: Starting Server")
     asyncio.run(main())
